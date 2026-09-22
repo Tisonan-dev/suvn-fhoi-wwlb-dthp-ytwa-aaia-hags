@@ -4,135 +4,10 @@
 
 [
   {
-    "dns": {
-      "servers": [
-        "1.1.1.1",
-        "1.0.0.1"
-      ],
-      "queryStrategy": "UseIP"
-    },
-    "routing": {
-      "rules": [
-        {
-          "type": "field",
-          "protocol": [
-            "bittorrent"
-          ],
-          "outboundTag": "direct"
-        }
-      ],
-      "domainMatcher": "hybrid",
-      "domainStrategy": "IPIfNonMatch"
-    },
-    "inbounds": [
-      {
-        "tag": "socks",
-        "port": 10808,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {
-          "udp": true,
-          "auth": "noauth"
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      },
-      {
-        "tag": "http",
-        "port": 10809,
-        "listen": "127.0.0.1",
-        "protocol": "http",
-        "settings": {
-          "allowTransparent": false
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      }
-    ],
-    "outbounds": [
-      {
-        "tag": "proxy",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "nl3.sky-vault.top",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "7fb8c4e7-2f8c-40f5-ba5e-d0f70bbd0ffb",
-                  "encryption": "none",
-                  "flow": ""
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "xhttpSettings": {
-            "mode": "auto",
-            "host": "",
-            "path": "/path",
-            "extra": {
-              "xmux": {
-                "cMaxReuseTimes": 0,
-                "maxConcurrency": 24,
-                "maxConnections": 0,
-                "hKeepAlivePeriod": 0,
-                "hMaxRequestTimes": 750,
-                "hMaxReusableSecs": 2400
-              },
-              "headers": {
-                "Accept": "*/*",
-                "Referer": "https://vk.com/",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-              },
-              "noGRPCHeader": false,
-              "xPaddingBytes": "200-1200",
-              "scMaxEachPostBytes": 800000,
-              "scMinPostIntervalMs": 20,
-              "scStreamUpServerSecs": "30-60"
-            }
-          },
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "nl3.sky-vault.top",
-            "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
-            "shortId": "ae64c9b46bff174a",
-            "fingerprint": "firefox"
-          }
-        }
-      },
-      {
-        "tag": "direct",
-        "protocol": "freedom"
-      },
-      {
-        "tag": "block",
-        "protocol": "blackhole"
-      }
-    ],
-    "remarks": "🇳🇱 Нидерланды (Если не работают др.) ",
+    "remarks": "🇪🇺 Европа ⚡",
     "meta": {
-      "serverDescription": "Если не работают другие"
-    }
-  },
-  {
+      "serverDescription": "Автовыбор сервера"
+    },
     "dns": {
       "servers": [
         "8.8.8.8",
@@ -214,7 +89,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "nl6.sky-vault.top",
+              "address": "de2.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -231,7 +106,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "nl6.sky-vault.top",
+            "serverName": "de2.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
@@ -286,13 +161,13 @@
       "subjectSelector": [
         "proxy"
       ]
-    },
-    "remarks": "🇪🇺 Европа ⚡ ",
-    "meta": {
-      "serverDescription": "Автовыбор сервера"
     }
   },
   {
+    "remarks": "🇪🇺 Европа | Усиленная",
+    "meta": {
+      "serverDescription": "Быстрый. Через Россию"
+    },
     "dns": {
       "servers": [
         "8.8.8.8",
@@ -310,7 +185,19 @@
         {
           "type": "field",
           "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "balancerTag": "auto"
+        }
+      ],
+      "balancers": [
+        {
+          "tag": "auto",
+          "selector": [
+            "proxy"
+          ],
+          "strategy": {
+            "type": "random"
+          },
+          "fallbackTag": "reserve"
         }
       ],
       "domainMatcher": "hybrid",
@@ -362,7 +249,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "rudbl13.sky-vault.top",
+              "address": "rudbl12.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -379,12 +266,43 @@
           "tcpSettings": {},
           "security": "tls",
           "tlsSettings": {
-            "serverName": "rudbl13.sky-vault.top",
+            "serverName": "rudbl12.sky-vault.top",
+            "enableSessionResumption": false,
             "fingerprint": "firefox",
             "alpn": [
               "h2",
               "http/1.1"
             ]
+          }
+        }
+      },
+      {
+        "tag": "reserve",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "port": 443,
+              "users": [
+                {
+                  "id": "7fb8c4e7-2f8c-40f5-ba5e-d0f70bbd0ffb",
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision"
+                }
+              ],
+              "address": "uk1.sky-vault.top"
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "security": "reality",
+          "realitySettings": {
+            "shortId": "ae64c9b46bff174a",
+            "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
+            "serverName": "uk1.sky-vault.top",
+            "fingerprint": "random",
+            "allowInsecure": false
           }
         }
       },
@@ -399,30 +317,35 @@
         "settings": {}
       }
     ],
-    "remarks": "🇪🇺 Европа | Усиленная",
-    "meta": {
-      "serverDescription": "Быстрый. Через Россию"
+    "observatory": {
+      "enabled": true,
+      "probeURL": "http://www.msftconnecttest.com/connecttest.txt",
+      "probeInterval": "3s",
+      "subjectSelector": [
+        "proxy"
+      ]
     }
   },
   {
+    "remarks": "🇳🇱 Нидерланды | Резерв",
+    "meta": {
+      "serverDescription": "Если не работают другие"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -474,7 +397,136 @@
         "settings": {
           "vnext": [
             {
-              "address": "pl9.sky-vault.top",
+              "address": "nl2.sky-vault.top",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "7fb8c4e7-2f8c-40f5-ba5e-d0f70bbd0ffb",
+                  "encryption": "none",
+                  "flow": ""
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "xhttpSettings": {
+            "mode": "auto",
+            "host": "",
+            "path": "/path",
+            "extra": {
+              "xmux": {
+                "cMaxReuseTimes": 0,
+                "maxConcurrency": 24,
+                "maxConnections": 0,
+                "hKeepAlivePeriod": 0,
+                "hMaxRequestTimes": 750,
+                "hMaxReusableSecs": 2400
+              },
+              "headers": {
+                "Accept": "*/*",
+                "Referer": "https://vk.com/",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "noGRPCHeader": false,
+              "xPaddingBytes": "200-1200",
+              "scMaxEachPostBytes": 800000,
+              "scMinPostIntervalMs": 20,
+              "scStreamUpServerSecs": "30-60"
+            }
+          },
+          "security": "reality",
+          "realitySettings": {
+            "serverName": "nl2.sky-vault.top",
+            "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
+            "shortId": "ae64c9b46bff174a",
+            "fingerprint": "firefox"
+          }
+        }
+      },
+      {
+        "tag": "direct",
+        "protocol": "freedom"
+      },
+      {
+        "tag": "block",
+        "protocol": "blackhole"
+      }
+    ]
+  },
+  {
+    "remarks": "🇷🇺 Россия | 📺YouTube без рекламы",
+    "meta": {
+      "serverDescription": "Для YouTube и РФ сервисов"
+    },
+    "dns": {
+      "servers": [
+        "1.1.1.1",
+        "1.0.0.1"
+      ],
+      "queryStrategy": "UseIP"
+    },
+    "routing": {
+      "rules": [
+        {
+          "type": "field",
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
+        }
+      ],
+      "domainMatcher": "hybrid",
+      "domainStrategy": "IPIfNonMatch"
+    },
+    "inbounds": [
+      {
+        "tag": "socks",
+        "port": 10808,
+        "listen": "127.0.0.1",
+        "protocol": "socks",
+        "settings": {
+          "udp": true,
+          "auth": "noauth"
+        },
+        "sniffing": {
+          "enabled": true,
+          "routeOnly": false,
+          "destOverride": [
+            "http",
+            "tls",
+            "quic"
+          ]
+        }
+      },
+      {
+        "tag": "http",
+        "port": 10809,
+        "listen": "127.0.0.1",
+        "protocol": "http",
+        "settings": {
+          "allowTransparent": false
+        },
+        "sniffing": {
+          "enabled": true,
+          "routeOnly": false,
+          "destOverride": [
+            "http",
+            "tls",
+            "quic"
+          ]
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        "tag": "proxy",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "ru1.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -491,7 +543,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "pl9.sky-vault.top",
+            "serverName": "ru1.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
@@ -500,39 +552,139 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
-    "remarks": "🇵🇱 Польша",
-    "meta": {
-      "serverDescription": "⚡ Быстрый · 10 Гбит/с"
-    }
+    ]
   },
   {
+    "remarks": "🇵🇱 Польша",
+    "meta": {
+      "serverDescription": "⚡ Быстрый · 10 Гбит/c"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
+        }
+      ],
+      "domainMatcher": "hybrid",
+      "domainStrategy": "IPIfNonMatch"
+    },
+    "inbounds": [
+      {
+        "tag": "socks",
+        "port": 10808,
+        "listen": "127.0.0.1",
+        "protocol": "socks",
+        "settings": {
+          "udp": true,
+          "auth": "noauth"
+        },
+        "sniffing": {
+          "enabled": true,
+          "routeOnly": false,
+          "destOverride": [
+            "http",
+            "tls",
+            "quic"
+          ]
+        }
+      },
+      {
+        "tag": "http",
+        "port": 10809,
+        "listen": "127.0.0.1",
+        "protocol": "http",
+        "settings": {
+          "allowTransparent": false
+        },
+        "sniffing": {
+          "enabled": true,
+          "routeOnly": false,
+          "destOverride": [
+            "http",
+            "tls",
+            "quic"
+          ]
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        "tag": "proxy",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "pl6.sky-vault.top",
+              "port": 443,
+              "users": [
+                {
+                  "id": "7fb8c4e7-2f8c-40f5-ba5e-d0f70bbd0ffb",
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "tcpSettings": {},
+          "security": "reality",
+          "realitySettings": {
+            "serverName": "pl6.sky-vault.top",
+            "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
+            "shortId": "ae64c9b46bff174a",
+            "fingerprint": "firefox"
+          }
+        }
+      },
+      {
+        "tag": "direct",
+        "protocol": "freedom"
+      },
+      {
+        "tag": "block",
+        "protocol": "blackhole"
+      }
+    ]
+  },
+  {
+    "remarks": "🇫🇷 Франция",
+    "meta": {
+      "serverDescription": "⚡ Быстрый · 10 Гбит/c"
+    },
+    "dns": {
+      "servers": [
+        "1.1.1.1",
+        "1.0.0.1"
+      ],
+      "queryStrategy": "UseIP"
+    },
+    "routing": {
+      "rules": [
+        {
+          "type": "field",
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -610,149 +762,34 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
-    "remarks": "🇫🇷 Франция",
-    "meta": {
-      "serverDescription": "⚡ Быстрый · 10 Гбит/с"
-    }
+    ]
   },
   {
-    "dns": {
-      "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
-      ],
-      "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
-    },
-    "routing": {
-      "rules": [
-        {
-          "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
-        }
-      ],
-      "domainMatcher": "hybrid",
-      "domainStrategy": "IPIfNonMatch"
-    },
-    "inbounds": [
-      {
-        "tag": "socks",
-        "port": 10808,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {
-          "udp": true,
-          "auth": "noauth"
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      },
-      {
-        "tag": "http",
-        "port": 10809,
-        "listen": "127.0.0.1",
-        "protocol": "http",
-        "settings": {
-          "allowTransparent": false
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      }
-    ],
-    "outbounds": [
-      {
-        "tag": "proxy",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "tr1.sky-vault.top",
-              "port": 443,
-              "users": [
-                {
-                  "id": "7fb8c4e7-2f8c-40f5-ba5e-d0f70bbd0ffb",
-                  "encryption": "none",
-                  "flow": "xtls-rprx-vision"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "tcp",
-          "tcpSettings": {},
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "tr1.sky-vault.top",
-            "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
-            "shortId": "ae64c9b46bff174a",
-            "fingerprint": "firefox"
-          }
-        }
-      },
-      {
-        "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
-      },
-      {
-        "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
-      }
-    ],
     "remarks": "🇹🇷 Турция",
     "meta": {
-      "serverDescription": "⚡ Быстрый · 10 Гбит/с"
-    }
-  },
-  {
+      "serverDescription": "⚡ Быстрый · 10 Гбит/c"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -804,7 +841,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "de9.sky-vault.top",
+              "address": "tr2.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -821,7 +858,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "de9.sky-vault.top",
+            "serverName": "tr2.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
@@ -830,39 +867,34 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
-    "remarks": "🇩🇪 Германия | 🎮Игровой",
+    ]
+  },
+  {
+    "remarks": "🇩🇪 Германия",
     "meta": {
-      "serverDescription": "🎮 Для мобильных игр"
-    }
-  },
-  {
+      "serverDescription": "⚡ Быстрый · 10 Гбит/c"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -914,7 +946,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "ee2.sky-vault.top",
+              "address": "de2.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -931,7 +963,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "ee2.sky-vault.top",
+            "serverName": "de2.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
@@ -940,39 +972,34 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
+    ]
+  },
+  {
     "remarks": "🇪🇪 Эстония",
     "meta": {
-      "serverDescription": "⚡ Быстрый · 10 Гбит/с"
-    }
-  },
-  {
+      "serverDescription": "⚡ Быстрый · 10 Гбит/c"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -1024,7 +1051,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "us1.sky-vault.top",
+              "address": "ee1.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -1041,7 +1068,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "us1.sky-vault.top",
+            "serverName": "ee1.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
@@ -1050,39 +1077,34 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
-    "remarks": "🇺🇸 США | 🤖Нейросети",
+    ]
+  },
+  {
+    "remarks": "🇺🇸 США",
     "meta": {
-      "serverDescription": "🤖Доступ к Gemini и др."
-    }
-  },
-  {
+      "serverDescription": "⚡ Быстрый · 10 Гбит/c"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -1134,7 +1156,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "md4.sky-vault.top",
+              "address": "us2.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -1151,7 +1173,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "md4.sky-vault.top",
+            "serverName": "us2.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
@@ -1160,39 +1182,34 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
+    ]
+  },
+  {
     "remarks": "🇲🇩 Молдова",
     "meta": {
-      "serverDescription": "🏴‍☠️ Торренты нежелательны."
-    }
-  },
-  {
+      "serverDescription": "🏴‍☠️Торренты разрешенны"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -1244,7 +1261,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "fl.sky-vault.top",
+              "address": "md1.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -1261,7 +1278,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "fl.sky-vault.top",
+            "serverName": "md1.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
@@ -1270,149 +1287,34 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
-    "remarks": "🇫🇮 Финляндия",
-    "meta": {
-      "serverDescription": "⚡ Быстрый · 10 Гбит/с"
-    }
+    ]
   },
   {
-    "dns": {
-      "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
-      ],
-      "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
-    },
-    "routing": {
-      "rules": [
-        {
-          "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
-        }
-      ],
-      "domainMatcher": "hybrid",
-      "domainStrategy": "IPIfNonMatch"
-    },
-    "inbounds": [
-      {
-        "tag": "socks",
-        "port": 10808,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {
-          "udp": true,
-          "auth": "noauth"
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      },
-      {
-        "tag": "http",
-        "port": 10809,
-        "listen": "127.0.0.1",
-        "protocol": "http",
-        "settings": {
-          "allowTransparent": false
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      }
-    ],
-    "outbounds": [
-      {
-        "tag": "proxy",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "kz4.sky-vault.top",
-              "port": 443,
-              "users": [
-                {
-                  "id": "7fb8c4e7-2f8c-40f5-ba5e-d0f70bbd0ffb",
-                  "encryption": "none",
-                  "flow": "xtls-rprx-vision"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "tcp",
-          "tcpSettings": {},
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "kz4.sky-vault.top",
-            "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
-            "shortId": "ae64c9b46bff174a",
-            "fingerprint": "chrome"
-          }
-        }
-      },
-      {
-        "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
-      },
-      {
-        "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
-      }
-    ],
     "remarks": "🇰🇿 Казахстан",
     "meta": {
-      "serverDescription": "⚡ Быстрый · 5 Гбит/с"
-    }
-  },
-  {
+      "serverDescription": "⚡ Быстрый · 10 Гбит/c"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -1464,7 +1366,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "ru2.sky-vault.top",
+              "address": "kz3.sky-vault.top",
               "port": 443,
               "users": [
                 {
@@ -1481,7 +1383,7 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "ru2.sky-vault.top",
+            "serverName": "kz3.sky-vault.top",
             "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
             "shortId": "ae64c9b46bff174a",
             "fingerprint": "chrome"
@@ -1490,39 +1392,34 @@
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
-    "remarks": "🇷🇺 Россия",
-    "meta": {
-      "serverDescription": "📺Для YouTube и РФ сервисов"
-    }
+    ]
   },
   {
+    "remarks": "🇫🇮 Финляндия | 🎮 Игровой",
+    "meta": {
+      "serverDescription": "🎮Для мобильных игр"
+    },
     "dns": {
       "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
+        "1.1.1.1",
+        "1.0.0.1"
       ],
       "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
     },
     "routing": {
       "rules": [
         {
           "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
+          "protocol": [
+            "bittorrent"
+          ],
+          "outboundTag": "direct"
         }
       ],
       "domainMatcher": "hybrid",
@@ -1574,11 +1471,11 @@
         "settings": {
           "vnext": [
             {
-              "address": "st.wb-redir.top",
+              "address": "fl3.sky-vault.top",
               "port": 443,
               "users": [
                 {
-                  "id": "7dc7e4c8-c986-42f3-8281-bce2e0cb73f4",
+                  "id": "7fb8c4e7-2f8c-40f5-ba5e-d0f70bbd0ffb",
                   "encryption": "none",
                   "flow": "xtls-rprx-vision"
                 }
@@ -1591,482 +1488,22 @@
           "tcpSettings": {},
           "security": "reality",
           "realitySettings": {
-            "serverName": "st.wb-redir.top",
-            "publicKey": "cFceImd3w-OVzIfeiuubhj63QHw1B9quHuD5SGQp8k0",
-            "shortId": "b8bd6b530e124b20",
+            "serverName": "fl3.sky-vault.top",
+            "publicKey": "_KTsOFhGnC0W28ZqO8_FApozMp7tJ9cVBTLKLAA_OR0",
+            "shortId": "ae64c9b46bff174a",
             "fingerprint": "firefox"
           }
         }
       },
       {
         "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
+        "protocol": "freedom"
       },
       {
         "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
+        "protocol": "blackhole"
       }
-    ],
-    "remarks": "🇷🇺 Мобильный интернет #1",
-    "meta": {
-      "serverDescription": ""
-    }
-  },
-  {
-    "dns": {
-      "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
-      ],
-      "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
-    },
-    "routing": {
-      "rules": [
-        {
-          "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
-        }
-      ],
-      "domainMatcher": "hybrid",
-      "domainStrategy": "IPIfNonMatch"
-    },
-    "inbounds": [
-      {
-        "tag": "socks",
-        "port": 10808,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {
-          "udp": true,
-          "auth": "noauth"
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      },
-      {
-        "tag": "http",
-        "port": 10809,
-        "listen": "127.0.0.1",
-        "protocol": "http",
-        "settings": {
-          "allowTransparent": false
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      }
-    ],
-    "outbounds": [
-      {
-        "tag": "proxy",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "cdns.wb-redir.top",
-              "port": 443,
-              "users": [
-                {
-                  "id": "7dc7e4c8-c986-42f3-8281-bce2e0cb73f4",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "cdns.wb-redir.top",
-            "fingerprint": "random",
-            "alpn": [
-              "h2",
-              "http/1.1"
-            ]
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/sync/",
-            "mode": "packet-up",
-            "host": "cdns.wb-redir.top"
-          }
-        }
-      },
-      {
-        "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
-      },
-      {
-        "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
-      }
-    ],
-    "remarks": "🇷🇺 Мобильный интернет #2",
-    "meta": {
-      "serverDescription": ""
-    }
-  },
-  {
-    "dns": {
-      "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
-      ],
-      "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
-    },
-    "routing": {
-      "rules": [
-        {
-          "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
-        }
-      ],
-      "domainMatcher": "hybrid",
-      "domainStrategy": "IPIfNonMatch"
-    },
-    "inbounds": [
-      {
-        "tag": "socks",
-        "port": 10808,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {
-          "udp": true,
-          "auth": "noauth"
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      },
-      {
-        "tag": "http",
-        "port": 10809,
-        "listen": "127.0.0.1",
-        "protocol": "http",
-        "settings": {
-          "allowTransparent": false
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      }
-    ],
-    "outbounds": [
-      {
-        "tag": "proxy",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "cdn.ya-secure.top",
-              "port": 443,
-              "users": [
-                {
-                  "id": "7dc7e4c8-c986-42f3-8281-bce2e0cb73f4",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "cdn.ya-secure.top",
-            "fingerprint": "firefox",
-            "alpn": [
-              "h2",
-              "http/1.1"
-            ]
-          },
-          "xhttpSettings": {
-            "path": "/photo/",
-            "mode": "packet-up",
-            "host": "cdn.ya-secure.top"
-          }
-        }
-      },
-      {
-        "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
-      },
-      {
-        "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
-      }
-    ],
-    "remarks": "🇷🇺 Мобильный интернет #3",
-    "meta": {
-      "serverDescription": ""
-    }
-  },
-  {
-    "dns": {
-      "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
-      ],
-      "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
-    },
-    "routing": {
-      "rules": [
-        {
-          "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
-        }
-      ],
-      "domainMatcher": "hybrid",
-      "domainStrategy": "IPIfNonMatch"
-    },
-    "inbounds": [
-      {
-        "tag": "socks",
-        "port": 10808,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {
-          "udp": true,
-          "auth": "noauth"
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      },
-      {
-        "tag": "http",
-        "port": 10809,
-        "listen": "127.0.0.1",
-        "protocol": "http",
-        "settings": {
-          "allowTransparent": false
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      }
-    ],
-    "outbounds": [
-      {
-        "tag": "proxy",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "cdnvc.ya-secure.top",
-              "port": 443,
-              "users": [
-                {
-                  "id": "7dc7e4c8-c986-42f3-8281-bce2e0cb73f4",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "cdnvc.ya-secure.top",
-            "fingerprint": "random",
-            "alpn": [
-              "h2",
-              "http/1.1"
-            ]
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/sync/",
-            "mode": "packet-up",
-            "host": "cdnvc.ya-secure.top"
-          }
-        }
-      },
-      {
-        "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
-      },
-      {
-        "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
-      }
-    ],
-    "remarks": "🇷🇺 Мобильный интернет #4",
-    "meta": {
-      "serverDescription": ""
-    }
-  },
-  {
-    "dns": {
-      "servers": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "77.88.8.8",
-        "195.208.4.1"
-      ],
-      "queryStrategy": "UseIP"
-    },
-    "log": {
-      "loglevel": "warning"
-    },
-    "routing": {
-      "rules": [
-        {
-          "type": "field",
-          "network": "tcp,udp",
-          "outboundTag": "proxy"
-        }
-      ],
-      "domainMatcher": "hybrid",
-      "domainStrategy": "IPIfNonMatch"
-    },
-    "inbounds": [
-      {
-        "tag": "socks",
-        "port": 10808,
-        "listen": "127.0.0.1",
-        "protocol": "socks",
-        "settings": {
-          "udp": true,
-          "auth": "noauth"
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      },
-      {
-        "tag": "http",
-        "port": 10809,
-        "listen": "127.0.0.1",
-        "protocol": "http",
-        "settings": {
-          "allowTransparent": false
-        },
-        "sniffing": {
-          "enabled": true,
-          "routeOnly": false,
-          "destOverride": [
-            "http",
-            "tls",
-            "quic"
-          ]
-        }
-      }
-    ],
-    "outbounds": [
-      {
-        "tag": "proxy",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "st.wb-redir.top",
-              "port": 443,
-              "users": [
-                {
-                  "id": "7dc7e4c8-c986-42f3-8281-bce2e0cb73f4",
-                  "encryption": "none",
-                  "flow": "xtls-rprx-vision"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "tcp",
-          "tcpSettings": {},
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "cdn.s3.yandex.net",
-            "publicKey": "cFceImd3w-OVzIfeiuubhj63QHw1B9quHuD5SGQp8k0",
-            "shortId": "b8bd6b530e124b20",
-            "fingerprint": "firefox"
-          }
-        }
-      },
-      {
-        "tag": "direct",
-        "protocol": "freedom",
-        "settings": {}
-      },
-      {
-        "tag": "block",
-        "protocol": "blackhole",
-        "settings": {}
-      }
-    ],
-    "remarks": "🇷🇺 Мобильный интернет #5",
-    "meta": {
-      "serverDescription": ""
-    }
+    ]
   }
 ]
+
